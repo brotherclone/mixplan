@@ -1,0 +1,40 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Mixplan
+    %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    = csrf_meta_tags
+    = csp_meta_tag
+    = vite_client_tag
+    = vite_stylesheet_tag 'application', data: { "turbo-track": "reload" }
+    = vite_javascript_tag 'application'
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+    = vite_client_tag
+    = vite_javascript_tag 'application'
+    /
+      If using a TypeScript entrypoint file:
+      vite_typescript_tag 'application'
+      
+      If using a .jsx or .tsx entrypoint, add the extension:
+      vite_javascript_tag 'application.jsx'
+      
+      Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
+  %body
+    - if notice
+      %p.alert.alert-success= notice
+    - if alert
+      %p.alert.alert-danger= alert
+    - if user_signed_in?
+      Logged in as
+      = succeed "." do
+        %strong= current_user.email
+      = link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link'
+      |
+      \#{link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'}
+    - else
+      = link_to "Sign up", new_user_registration_path, :class => 'navbar-link'
+      |
+      \#{link_to "Login", new_user_session_path, :class => 'navbar-link'}
+    = yield
