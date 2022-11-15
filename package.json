@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "mixplan",
   "private": "true",
   "dependencies": {
     "@hotwired/stimulus": "^3.1.1",
