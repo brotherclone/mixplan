@@ -78,6 +78,4 @@ group :test do
 end
 
 gem "devise"
-gem "vite_rails"
-gem "vite_ruby"
 gem "haml-rails"
