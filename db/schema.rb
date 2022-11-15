@@ -10,9 +10,115 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_14_165246) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_14_173630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "audio_file_services", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_audio_file_services_on_project_id"
+  end
+
+  create_table "audio_files", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "track_version_id"
+    t.index ["track_version_id"], name: "index_audio_files_on_track_version_id"
+  end
+
+  create_table "issues", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_issues_on_user_id"
+  end
+
+  create_table "project_tracks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "project_id"
+    t.bigint "track_id"
+    t.index ["project_id"], name: "index_project_tracks_on_project_id"
+    t.index ["track_id"], name: "index_project_tracks_on_track_id"
+  end
+
+  create_table "project_user_roles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_role_id"
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_project_user_roles_on_project_id"
+    t.index ["user_role_id"], name: "index_project_user_roles_on_user_role_id"
+  end
+
+  create_table "project_users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "project_id"
+    t.bigint "user_id"
+    t.index ["project_id"], name: "index_project_users_on_project_id"
+    t.index ["user_id"], name: "index_project_users_on_user_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "track_issue_stages", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "track_stage_id"
+    t.bigint "track_issue_id"
+    t.index ["track_issue_id"], name: "index_track_issue_stages_on_track_issue_id"
+    t.index ["track_stage_id"], name: "index_track_issue_stages_on_track_stage_id"
+  end
+
+  create_table "track_issues", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "issue_id"
+    t.bigint "track_version_id"
+    t.index ["issue_id"], name: "index_track_issues_on_issue_id"
+    t.index ["track_version_id"], name: "index_track_issues_on_track_version_id"
+  end
+
+  create_table "track_stage_categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "track_stages", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "track_stage_category_id"
+    t.index ["track_stage_category_id"], name: "index_track_stages_on_track_stage_category_id"
+  end
+
+  create_table "track_versions", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "track_id"
+    t.index ["track_id"], name: "index_track_versions_on_track_id"
+  end
+
+  create_table "tracks", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_user_roles_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name"
