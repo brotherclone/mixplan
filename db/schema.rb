@@ -15,41 +15,36 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_173630) do
   enable_extension "plpgsql"
 
   create_table "audio_file_services", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "project_id"
-    t.index ["project_id"], name: "index_audio_file_services_on_project_id"
   end
 
   create_table "audio_files", force: :cascade do |t|
+    t.text "file_meta_blob"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "track_version_id"
+    t.bigint "audio_file_service_id"
+    t.index ["audio_file_service_id"], name: "index_audio_files_on_audio_file_service_id"
     t.index ["track_version_id"], name: "index_audio_files_on_track_version_id"
   end
 
   create_table "issues", force: :cascade do |t|
+    t.string "name"
+    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_issues_on_user_id"
-  end
-
-  create_table "project_tracks", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "project_id"
     t.bigint "track_id"
-    t.index ["project_id"], name: "index_project_tracks_on_project_id"
-    t.index ["track_id"], name: "index_project_tracks_on_track_id"
+    t.index ["track_id"], name: "index_issues_on_track_id"
   end
 
   create_table "project_user_roles", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_role_id"
-    t.bigint "project_id"
-    t.index ["project_id"], name: "index_project_user_roles_on_project_id"
+    t.bigint "project_user_id"
+    t.index ["project_user_id"], name: "index_project_user_roles_on_project_user_id"
     t.index ["user_role_id"], name: "index_project_user_roles_on_user_role_id"
   end
 
@@ -66,32 +61,42 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_173630) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "audio_file_service_id"
+    t.index ["audio_file_service_id"], name: "index_projects_on_audio_file_service_id"
   end
 
   create_table "track_issue_stages", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "track_stage_id"
     t.bigint "track_issue_id"
+    t.bigint "track_stage_id"
     t.index ["track_issue_id"], name: "index_track_issue_stages_on_track_issue_id"
     t.index ["track_stage_id"], name: "index_track_issue_stages_on_track_stage_id"
   end
 
   create_table "track_issues", force: :cascade do |t|
+    t.integer "vote"
+    t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "issue_id"
+    t.bigint "project_user_id"
     t.bigint "track_version_id"
     t.index ["issue_id"], name: "index_track_issues_on_issue_id"
+    t.index ["project_user_id"], name: "index_track_issues_on_project_user_id"
     t.index ["track_version_id"], name: "index_track_issues_on_track_version_id"
   end
 
   create_table "track_stage_categories", force: :cascade do |t|
+    t.string "name"
+    t.integer "category_sequence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "track_stages", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "track_stage_category_id"
@@ -99,7 +104,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_173630) do
   end
 
   create_table "track_versions", force: :cascade do |t|
-    t.string "title"
+    t.string "version_number"
+    t.string "version_title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "track_id"
@@ -110,19 +116,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_173630) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_tracks_on_project_id"
   end
 
   create_table "user_roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "project_permission"
+    t.string "track_permission"
+    t.string "user_permission"
+    t.string "project_user_permission"
+    t.string "issue_permission"
+    t.string "track_version_permission"
+    t.string "audio_file_permission"
+    t.string "audio_file_service_permission"
     t.bigint "user_id"
     t.index ["user_id"], name: "index_user_roles_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
+    t.string "user_name"
+    t.string "icon"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

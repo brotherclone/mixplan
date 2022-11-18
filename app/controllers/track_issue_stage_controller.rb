@@ -1,0 +1,2 @@
+class TrackIssueStageController < ApplicationController
+end

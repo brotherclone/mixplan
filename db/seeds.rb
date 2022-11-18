@@ -1,7 +1,92 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+# Users
+rocking_joe = User.create(email: 'rockinjoe@gmail.com', password: ENV["FAKE_USER_PASSWORD"], icon:"https://i.pravatar.cc/300", user_name: "rockinjoe")
+dj_poop_stain = User.create(email: 'dj_ps@gmail.com', password: ENV["FAKE_USER_PASSWORD"], icon:"https://i.pravatar.cc/300", user_name: "djps")
+a_sad_drummer = User.create(email: 'sad_drums@gmail.com', password: ENV["FAKE_USER_PASSWORD"], icon:"https://i.pravatar.cc/300", user_name: "replacedbymidi")
+a_supportive_mom = User.create(email: 'supportivemom@gmail.com', password: ENV["FAKE_USER_PASSWORD"], icon:"https://i.pravatar.cc/300",user_name: "karlsproudmom")
+# User Roles
+project_admin = UserRole.create(name: "project_admin", project_permission:1111, track_permission:1111, user_permission:1010, project_user_permission: 1111, issue_permission: 1111, track_version_permission: 1111, audio_file_permission: 1111, audio_file_service_permission: 0100)
+system_admin =  UserRole.create(name: "system_admin", project_permission:1111, track_permission:1111, user_permission:1111, project_user_permission: 1111, issue_permission: 1111, track_version_permission: 1111, audio_file_permission: 1111, audio_file_service_permission: 1111)
+project_user =  UserRole.create(name: "project_user", project_permission:0100, track_permission:1111, user_permission:0100, project_user_permission: 1110, issue_permission: 1110, track_version_permission: 1111, audio_file_permission: 1111, audio_file_service_permission: 0100)
+project_reviewer =  UserRole.create(name: "project_reviewer", project_permission:0100, track_permission:0100, user_permission:0100, project_user_permission: 0100, issue_permission: 1111, track_version_permission: 0100, audio_file_permission: 0100, audio_file_service_permission: 0100)
+# Track Stage Categories
+compose = TrackStageCategory.create(name:'Compose', category_sequence: 1)
+prepare = TrackStageCategory.create(name:'Prepare', category_sequence: 2)
+record = TrackStageCategory.create(name:'Record', category_sequence: 3)
+edit = TrackStageCategory.create(name:'Edit', category_sequence: 4)
+mix = TrackStageCategory.create(name:'Mix', category_sequence: 5)
+evaluate = TrackStageCategory.create(name:'Evaluate', category_sequence: 6)
+master = TrackStageCategory.create(name:'Master', category_sequence: 7)
+manufacture = TrackStageCategory.create(name:'Master', category_sequence: 8)
+pre_release = TrackStageCategory.create(name:'Pre-Release', category_sequence: 9)
+release = TrackStageCategory.create(name:'Release', category_sequence: 10)
+post_release = TrackStageCategory.create(name:'Post-Release', category_sequence: 11)
+# Track Stages
+guitars = TrackStage.create(track_stage_category_id: record.id, name: "Record Guitars", description: "Tracking Guitars Directly")
+drums = TrackStage.create(track_stage_category_id: record.id, name: "Record Drums", description: "Tracking Drums")
+vocals = TrackStage.create(track_stage_category_id: record.id, name: "Record Vocals", description: "Tracking Vocals")
+chords = TrackStage.create(track_stage_category_id: compose.id, name: "Chord Outline", description: "Just some chords that kinda go together")
+melody = TrackStage.create(track_stage_category_id: compose.id, name: "Melody", description: "A line atop")
+lyrics = TrackStage.create(track_stage_category_id: compose.id, name: "Lyrics", description: "The words, man.")
+hire_players = TrackStage.create(track_stage_category_id: prepare.id, name: "Session Players", description: "Pros")
+rehearse = TrackStage.create(track_stage_category_id: prepare.id, name: "Rehearse", description: "Come on guys it's 200 an hour")
+fix_rhythm = TrackStage.create(track_stage_category_id: edit.id, name: "Rhythm Edits", description: "Slide it over!")
+cut_down = TrackStage.create(track_stage_category_id: edit.id, name: "Edit", description: "3:30")
+pitch_correction = TrackStage.create(track_stage_category_id: edit.id, name: "Pitch Correction", description: "Fuck you Adele")
+de_breath = TrackStage.create(track_stage_category_id: edit.id, name: "De Breath", description: "Not so stalkery")
+re_amp = TrackStage.create(track_stage_category_id: edit.id, name: "Re-Amp", description: "Coffins")
+mix_a = TrackStage.create(track_stage_category_id: mix.id, name: "MIX A", description: "Sure it will work on the first try")
+mix_b = TrackStage.create(track_stage_category_id: mix.id, name: "MIX B", description: "What if there's no guitars?")
+mix_c = TrackStage.create(track_stage_category_id: mix.id, name: "MIX C", description: "Dance Mix")
+instrumental = TrackStage.create(track_stage_category_id: mix.id, name: "Instrumental Mix", description: "Oh yeah, A&R people will give you lots of money for this.")
+stems = TrackStage.create(track_stage_category_id: mix.id, name: "STEMS", description: "Here, you do it.")
+listen_on_ear_buds = TrackStage.create(track_stage_category_id: evaluate.id, name: "Headphones", description: "Convert to MP3 cause that's how people will hear it")
+listen_in_car = TrackStage.create(track_stage_category_id: evaluate.id, name: "Car", description: "Wanna hotbox and check out these mixes?")
+listen_on_house_system = TrackStage.create(track_stage_category_id: evaluate.id, name: "Club System", description: "Opps, forgot to low pass")
+master_for_streaming = TrackStage.create(track_stage_category_id: master.id, name: "Mastered for Apple Music", description: "Maybe they'll like it more")
+master_for_cd = TrackStage.create(track_stage_category_id: master.id, name: "Mastered default", description: "44.1kHz, 16-bit, 72 minutes max")
+master_for_vinyl = TrackStage.create(track_stage_category_id: master.id, name: "Mastered for vinyl", description: "You just have to wait a year for stampers")
+master_instrumental = TrackStage.create(track_stage_category_id: master.id, name: "Instrumental Mastered", description: "Will sound so good on Netflix")
+master_stems = TrackStage.create(track_stage_category_id: master.id, name: "Stems Mastered", description: "We could, like, have a contest and...")
+cover_art = TrackStage.create(track_stage_category_id: manufacture.id, name: "Cover Art", description: "Sure, it's my wang, but if you look closely...")
+stamper = TrackStage.create(track_stage_category_id: manufacture.id, name: "Stamper", description: "Wait, aren't the inner tracks a different speed.")
+pressing_plant = TrackStage.create(track_stage_category_id: manufacture.id, name: "Deliver to Plant", description: "Talk to you in a few years")
+hire_pr = TrackStage.create(track_stage_category_id: pre_release.id, name: "Get PR", description: "But when they send it to blogs...")
+write_release_sheet = TrackStage.create(track_stage_category_id: pre_release.id, name: "One Sheet", description: "It's name droppin' time")
+music_video = TrackStage.create(track_stage_category_id: pre_release.id, name: "Music Video", description: "We could shoot it on an iPhone")
+playlist_promo = TrackStage.create(track_stage_category_id: pre_release.id, name: "Play List Promotion", description: "We pay people to what now?")
+personal_sends = TrackStage.create(track_stage_category_id: pre_release.id, name: "Mail Copies", description: "I hope this finds you well, as you can see I've wasted another year of my life.")
+send_to_distributor = TrackStage.create(track_stage_category_id: pre_release.id, name: "Send to Distributor", description: "Why didn't I drop ship?")
+post_on_bandcamp = TrackStage.create(track_stage_category_id: release.id, name: "Bandcamp", description: "Which Friday is the thing?")
+post_on_sound_cloud = TrackStage.create(track_stage_category_id: release.id, name: "SoundCloud", description: "Take that middle schoolers")
+interviews = TrackStage.create(track_stage_category_id: post_release.id, name: "Interview", description: "Is it cool if you record on your phone and send me the files?")
+publicity_stunt = TrackStage.create(track_stage_category_id: post_release.id, name: "Pay Attention", description: "It could be like a treasure hunt but they get the music they can get for free.")
+do_your_taxes = TrackStage.create(track_stage_category_id: post_release.id, name: "Taxes", description: "$212.34 in sales, I only spent $3590. Soo...")
+# Audio File Services
+soundcloud = AudioFileService.create(name: "SoundCloud")
+# Projects
+pink_album = Project.create(title: "Pink Album", audio_file_service_id: soundcloud.id)
+a_new_ep = Project.create(title: "New EP", audio_file_service_id: soundcloud.id)
+dj_poop_stain_collaboration= Project.create(title: "DJps collab", audio_file_service_id: nil)
+# Project Users
+mom_pink = ProjectUser.create(user_id: a_supportive_mom.id, project_id: pink_album.id)
+joe_pink = ProjectUser.create(user_id: rocking_joe.id, project_id: pink_album.id)
+# Project User Roles
+mom_can_comment_on_pink = ProjectUserRole.create(user_role_id: project_reviewer.id, project_user_id: mom_pink)
+joe_can_collab_on_pink = ProjectUserRole.create(user_role_id: project_user.id, project_user_id: joe_pink)
+# Tracks
+i_love_you_pink_gril = Track.create(title:"I Love You, Pink Grill", project_id: pink_album.id)
+# Track Version
+this_one_has_lots_bass = TrackVersion.create(version_number:"1", track_id: i_love_you_pink_gril.id, version_title: "oh yeah")
+okay_i_fixed_the_bass = TrackVersion.create(version_number:"2", track_id: i_love_you_pink_gril.id, version_title: "sorry")
+# Issues
+this_has_too_much_bass = Issue.create(name:"It has too much bass", track_id: i_love_you_pink_gril.id, status:1)
+bennie_would_be_good = Issue.create(name:"You should get bennie on this", track_id: i_love_you_pink_gril.id, status:1)
+# Audio Files
+pinkGrilcrasy = AudioFile.create(audio_file_service_id: soundcloud.id, file_meta_blob:"<></>", track_version_id:this_one_has_lots_bass.id)
+# Track  Issues
+rocking_joe_on_too_much_bass = TrackIssue.create(issue_id: this_has_too_much_bass.id, project_user_id: joe_pink.id, track_version_id:this_one_has_lots_bass.id, vote:1, comment: "Too much")
+rocking_joe_still_thinks_theres_too_much = TrackIssue.create(issue_id: this_has_too_much_bass.id, project_user_id: joe_pink.id, track_version_id:okay_i_fixed_the_bass.id, vote:1, comment: "Still too much")
+
+# Track Issue Stages
+mix_a_has_too_much_bass = TrackIssueStage.create(track_issue_id: rocking_joe_on_too_much_bass.id, track_stage_id: mix_a.id)
+

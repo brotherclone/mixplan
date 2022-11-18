@@ -8,6 +8,7 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.1.1",
     "@hotwired/turbo-rails": "^7.2.4",
+    "dragula": "^3.7.3",
     "esbuild": "^0.15.14",
     "sass": "^1.56.1"
   }

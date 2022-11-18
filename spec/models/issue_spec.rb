@@ -4,8 +4,8 @@ RSpec.describe Issue, type: :model do
   it 'has a valid Factory' do
     expect(build(:issue)).to be_valid
   end
-  it 'should have one user' do
-    should belong_to(:user)
+  it 'should have a track' do
+    should belong_to(:track)
   end
   it 'should have many track versions through track issues' do
     should have_many(:track_issues)

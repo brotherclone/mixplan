@@ -7,7 +7,7 @@ RSpec.describe ProjectUserRole, type: :model do
   it 'belong to a user role' do
     should belong_to(:user_role)
   end
-  it 'belong to a project' do
-    should belong_to(:project)
+  it 'belong to a project user' do
+    should belong_to(:project_user)
   end
 end

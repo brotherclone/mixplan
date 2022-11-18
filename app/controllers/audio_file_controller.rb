@@ -1,0 +1,2 @@
+class AudioFileController < ApplicationController
+end

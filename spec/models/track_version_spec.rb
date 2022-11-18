@@ -7,8 +7,8 @@ RSpec.describe TrackVersion, type: :model do
   it 'should belong to a track' do
     should belong_to(:track)
   end
-  it 'has one audio file' do
-    should have_one(:audio_file)
+  it 'has many audio file' do
+    should have_many(:audio_files)
   end
   it 'has have many track issues' do
     should have_many(:track_issues)

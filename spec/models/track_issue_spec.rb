@@ -7,8 +7,11 @@ RSpec.describe TrackIssue, type: :model do
   it 'belong to an issue' do
     should belong_to(:issue)
   end
-  it 'belong to a track' do
+  it 'belong to a track version' do
     should belong_to(:track_version)
+  end
+  it 'belong to a project user' do
+    should belong_to(:project_user)
   end
   it 'should have many track stages through track issue stages' do
     should have_many(:track_issue_stages)

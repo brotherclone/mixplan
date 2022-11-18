@@ -10,4 +10,8 @@ RSpec.describe ProjectUser, type: :model do
   it 'belong to a user' do
     should belong_to(:project)
   end
+  it 'should have many project user roles through project users' do
+    should have_many(:project_user_roles)
+    should have_many(:user_roles).through(:project_user_roles)
+  end
 end

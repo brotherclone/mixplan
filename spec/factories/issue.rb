@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :issue do
-    user
+    track
+    name { Faker::Lorem.word }
+    status { 1 }
   end
 end
